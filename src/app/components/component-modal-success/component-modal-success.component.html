@@ -1,0 +1,23 @@
+<div class="success-page">
+  <div class="success-container">
+    <div class="success-icon">✓</div>
+    <h1>Sucesso</h1>
+    
+    <div class="transfer-details">
+      <div class="detail-row">
+        <span>Enviado:</span>
+        <strong>{{ valor | currency:'BRL' }}</strong>
+      </div>
+      <div class="detail-row">
+        <span>Para:</span>
+        <strong>{{ destinatario }}</strong>
+      </div>
+      <div class="detail-row">
+        <span>Data:</span>
+        <strong>{{ dataTransacao }}</strong>
+      </div>
+    </div>
+
+    <button class="done-btn" (click)="novaTransferencia()">Concluir</button>
+  </div>
+</div>

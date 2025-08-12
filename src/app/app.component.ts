@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-root-transferencia',
+  template: `<router-outlet></router-outlet>`,
+  styles: [':host { display: block; height: 100%; }']
 })
-export class AppComponent {
-  title = 'transferencia-fixed';
-}
+export class AppComponent {}
