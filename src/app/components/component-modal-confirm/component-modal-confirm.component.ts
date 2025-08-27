@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
-import { LocalizationService } from '../../services/localization.service'; // Adicione esta importação
+import { LocalizationService } from '../../services/localization.service'; 
 
 @Component({
   selector: 'app-component-modal-confirm',
@@ -11,19 +11,18 @@ import { LocalizationService } from '../../services/localization.service'; // Ad
 export class ComponentModalConfirmComponent implements OnInit {
   dadosTransacao: any = {};
   destinatario: string = '';
-  currentLanguage: string = 'pt-BR'; // Adicione esta propriedade
-
+  currentLanguage: string = 'pt-BR';
   constructor(
     private router: Router,
     private transactionService: TransactionService,
-    private localizationService: LocalizationService // Adicione esta injeção
+    private localizationService: LocalizationService 
   ) {}
 
   ngOnInit() {
     this.dadosTransacao = this.transactionService.currentValue || {};
     this.destinatario = this.dadosTransacao.destinatario || '';
 
-    // Adicione este código para observar mudanças de idioma
+    //código para observar mudanças de idioma
     this.localizationService.currentLanguage$.subscribe(lang => {
       this.currentLanguage = lang;
     });
@@ -37,7 +36,7 @@ export class ComponentModalConfirmComponent implements OnInit {
     this.router.navigate(['/sucesso']);
   }
 
-  // Adicione este método para tradução
+  //método para tradução
   translate(key: string): string {
     return this.localizationService.translateWithLanguage(key, this.currentLanguage);
   }
