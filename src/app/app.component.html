@@ -1,0 +1,6 @@
+<div class="language-selector-global">
+  <button (click)="changeLanguage('pt-BR')" [class.active]="currentLanguage === 'pt-BR'">PT</button>
+  <button (click)="changeLanguage('en-US')" [class.active]="currentLanguage === 'en-US'">EN</button>
+</div>
+
+<router-outlet></router-outlet>

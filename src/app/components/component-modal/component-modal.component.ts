@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
+import { LocalizationService } from '../../services/localization.service'; // Adicione esta importação
 
 interface Cartao {
   id: number;
@@ -20,25 +21,34 @@ export class ComponentModalComponent implements OnInit {
   cartoes: Cartao[] = [
     { id: 1, tipo: 'Mastercard', final: '6758', saldo: 2000 },
     { id: 2, tipo: 'Visa', final: '4586', saldo: 2000 },
-    {id: 3, tipo: 'Paypal', final: '1234', saldo: 2000 }
+    { id: 3, tipo: 'PayPal', final: '1234', saldo: 2000 }
   ];
   cartaoSelecionado: Cartao | null = null;
+  currentLanguage: string = 'pt-BR'; // Adicione esta propriedade
 
   constructor(
-    private router: Router,
-    private transactionService: TransactionService
+    private router: Router, 
+    private transactionService: TransactionService,
+    private localizationService: LocalizationService // Adicione esta injeção
   ) {}
 
   ngOnInit() {
-    const data = this.transactionService.currentValue;
-    if (data) {
-      this.valor = data.valor;
-      this.destinatario = data.destinatario || '';
-    }
+    this.transactionService.currentData.subscribe(data => {
+      if (data) {
+        this.valor = data.valor;
+        this.destinatario = data.destinatario;
+      }
+    });
+
+    // Adicione este código para observar mudanças de idioma
+    this.localizationService.currentLanguage$.subscribe(lang => {
+      this.currentLanguage = lang;
+    });
   }
 
   selecionarCartao(cartao: Cartao) {
     this.cartaoSelecionado = cartao;
+    this.confirmar();
   }
 
   voltar() {
@@ -54,5 +64,14 @@ export class ComponentModalComponent implements OnInit {
       });
       this.router.navigate(['/confirmar']);
     }
+  }
+
+  novoCartao() {
+    this.router.navigate(['/novo-cartao']);
+  }
+
+  // Adicione este método para tradução
+  translate(key: string): string {
+    return this.localizationService.translateWithLanguage(key, this.currentLanguage);
   }
 }

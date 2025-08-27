@@ -4,6 +4,7 @@ import { ComponentMoneyComponent } from './components/component-money/component-
 import { ComponentModalComponent } from './components/component-modal/component-modal.component';
 import { ComponentModalConfirmComponent } from './components/component-modal-confirm/component-modal-confirm.component';
 import { ComponentModalSuccessComponent } from './components/component-modal-success/component-modal-success.component';
+import { NewCardComponent } from './components/new-card/new-card.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'money', pathMatch: 'full' },
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'cartao', component: ComponentModalComponent },
   { path: 'confirmar', component: ComponentModalConfirmComponent },
   { path: 'sucesso', component: ComponentModalSuccessComponent },
+  { path: 'novo-cartao', component: NewCardComponent },
   { path: '**', redirectTo: 'money' }
 ];
 

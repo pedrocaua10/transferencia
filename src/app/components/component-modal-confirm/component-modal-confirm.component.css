@@ -3,8 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fafafa;
   padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .confirm-container {
@@ -12,42 +12,45 @@
   width: 100%;
   padding: 2.5rem;
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   text-align: center;
+  animation: slideIn 0.5s ease-out;
 }
 
 .confirm-container h2 {
-  color: #333;
+  color: #2d3748;
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 2rem;
 }
 
 .transfer-details {
-  background: #f9f9f9;
+  background: #f7fafc;
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
+  border: 1px solid #e2e8f0;
 }
 
 .detail-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1.2rem;
-  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
 }
 
 .detail-row:last-child {
   margin-bottom: 0;
 }
 
-.detail-row span {
-  color: #666;
+.detail-label {
+  color: #718096;
+  font-weight: 500;
 }
 
-.detail-row strong {
-  color: #333;
+.detail-value {
+  color: #2d3748;
   font-weight: 600;
 }
 
@@ -58,37 +61,50 @@
 
 .cancel-btn, .confirm-btn {
   flex: 1;
-  padding: 1.2rem;
+  padding: 1rem;
   border: none;
   border-radius: 12px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s ease;
 }
 
 .cancel-btn {
-  background: #f0f0f0;
-  color: #333;
+  background: #f7fafc;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
 }
 
 .cancel-btn:hover {
-  background: #e0e0e0;
-}
-
-.confirm-btn {
-  background: #28a745;
-  color: white;
-  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
-}
-
-.confirm-btn:hover {
-  background: #218838;
+  background: #edf2f7;
   transform: translateY(-2px);
 }
 
+.confirm-btn {
+  background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+  color: white;
+  box-shadow: 0 4px 10px rgba(72, 187, 120, 0.3);
+}
+
+.confirm-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Responsividade */
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .confirm-page {
     padding: 1rem;
   }
@@ -99,5 +115,15 @@
 
   .button-group {
     flex-direction: column;
+  }
+  
+  .transfer-details {
+    padding: 1rem;
+  }
+  
+  .detail-row {
+    flex-direction: column;
+    gap: 0.3rem;
+    text-align: left;
   }
 }

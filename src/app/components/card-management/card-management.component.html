@@ -1,0 +1,40 @@
+<div class="card-management-page">
+  <div class="card-management-container">
+    <div class="header">
+      <h2>{{ translate('MY_CARDS') }}</h2>
+    </div>
+    
+    <p class="section-title">{{ translate('SELECT_CARD') }}</p>
+    
+    <div class="card-list">
+      <!-- Lista de cartões -->
+      <div *ngFor="let cartao of cartoes" 
+           class="card-item"
+           [class.selected]="cartaoSelecionado?.id === cartao.id"
+           (click)="selecionarCartao(cartao)">
+        <img [src]="'assets/' + cartao.imagem" 
+             alt="{{cartao.tipo}}"
+             class="card-logo">
+        <div class="card-info">
+          <span class="card-type">{{cartao.tipo}} {{ translate('ENDING_IN') }} {{cartao.final}}</span>
+          <span class="card-balance">{{ translate('CARD_BALANCE') }}: R$ {{cartao.saldo | number:'1.2-2'}}</span>
+        </div>
+      </div>
+      
+      <!-- Novo cartão -->
+      <div class="new-card-item" (click)="adicionarNovoCartao()">
+        <div class="add-icon">+</div>
+        <span>{{ translate('ADD_NEW_CARD') }}</span>
+      </div>
+    </div>
+    
+    <div class="button-group">
+      <button class="btn btn-secondary" (click)="voltar()">{{ translate('BACK') }}</button>
+      <button class="btn btn-primary" 
+              (click)="confirmar()" 
+              [disabled]="!cartaoSelecionado">
+        {{ translate('SELECT') }}
+      </button>
+    </div>
+  </div>
+</div>

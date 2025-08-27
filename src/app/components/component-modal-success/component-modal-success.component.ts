@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
 import { DatePipe } from '@angular/common';
+import { LocalizationService } from '../../services/localization.service'; // Adicione esta importação
 
 @Component({
   selector: 'app-component-modal-success',
@@ -12,11 +13,13 @@ export class ComponentModalSuccessComponent implements OnInit {
   valor: number = 0;
   destinatario: string = '';
   dataTransacao: string;
+  currentLanguage: string = 'pt-BR'; // Adicione esta propriedade
 
   constructor(
     private router: Router,
     private transactionService: TransactionService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private localizationService: LocalizationService // Adicione esta injeção
   ) {
     this.dataTransacao = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
   }
@@ -27,10 +30,20 @@ export class ComponentModalSuccessComponent implements OnInit {
       this.valor = data.valor;
       this.destinatario = data.destinatario || '';
     }
+
+    // Adicione este código para observar mudanças de idioma
+    this.localizationService.currentLanguage$.subscribe(lang => {
+      this.currentLanguage = lang;
+    });
   }
 
   novaTransferencia() {
     this.transactionService.clearData();
     this.router.navigate(['/money']);
+  }
+
+  // Adicione este método para tradução
+  translate(key: string): string {
+    return this.localizationService.translateWithLanguage(key, this.currentLanguage);
   }
 }

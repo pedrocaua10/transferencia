@@ -4,13 +4,13 @@ import { TransactionService } from '../../services/transaction.service';
 import { LocalizationService } from '../../services/localization.service'; // Adicione esta importação
 
 @Component({
-  selector: 'app-component-modal-confirm',
-  templateUrl: './component-modal-confirm.component.html',
-  styleUrls: ['./component-modal-confirm.component.css']
+  selector: 'app-card-management',
+  templateUrl: './card-management.component.html', 
+  styleUrls: ['./card-management.component.css']
 })
-export class ComponentModalConfirmComponent implements OnInit {
-  dadosTransacao: any = {};
-  destinatario: string = '';
+export class CardManagementComponent implements OnInit { 
+  cartaoSelecionado: any = null;
+  cartoes: any[] = [];
   currentLanguage: string = 'pt-BR'; // Adicione esta propriedade
 
   constructor(
@@ -20,8 +20,9 @@ export class ComponentModalConfirmComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.dadosTransacao = this.transactionService.currentValue || {};
-    this.destinatario = this.dadosTransacao.destinatario || '';
+    this.transactionService.cartoes$.subscribe((cartoes: any[]) => {
+      this.cartoes = cartoes;
+    });
 
     // Adicione este código para observar mudanças de idioma
     this.localizationService.currentLanguage$.subscribe(lang => {
@@ -29,12 +30,23 @@ export class ComponentModalConfirmComponent implements OnInit {
     });
   }
 
+  selecionarCartao(cartao: any) {
+    this.cartaoSelecionado = cartao;
+  }
+
+  adicionarNovoCartao() {
+    this.router.navigate(['/novo-cartao']);
+  }
+
   voltar() {
     this.router.navigate(['/money']);
   }
 
   confirmar() {
-    this.router.navigate(['/sucesso']);
+    if (this.cartaoSelecionado) {
+      this.transactionService.setCartaoSelecionado(this.cartaoSelecionado);
+      this.router.navigate(['/money']);
+    }
   }
 
   // Adicione este método para tradução

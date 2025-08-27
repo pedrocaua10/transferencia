@@ -1,74 +1,91 @@
 <div class="money-page">
-  <div class="money-container">
-    <div class="header">
-      <h2>{{ destinatario }}</h2>
+  <div class="card-wrapper">
+    <div class="profile">
+      <div class="avatar">M</div>
+      <span class="recipient">Mickey Obama Jr.</span>
+      
+      <!-- Seletor de idioma melhorado -->
+      <div class="language-selector">
+        <button (click)="changeLanguage('pt-BR')" 
+                [class.active]="currentLanguage === 'pt-BR'"
+                class="lang-btn">PT</button>
+        <button (click)="changeLanguage('en-US')" 
+                [class.active]="currentLanguage === 'en-US'"
+                class="lang-btn">EN</button>
+      </div>
     </div>
 
-    <div class="card-section">
-      <p class="section-title">Pagar com</p>
-      <div class="card-selector">
-        <div class="selected-card" (click)="alternarDropdown($event)">
-          <img [src]="'assets/' + cartaoSelecionado.imagem" 
-               alt="{{cartaoSelecionado.tipo}}"
-               class="card-logo">
-          <div class="card-info">
-            <span class="card-name">{{cartaoSelecionado.tipo}} terminando em {{cartaoSelecionado.final}}</span>
-            <button class="toggle-saldo" (click)="alternarSaldo($event)">
-              {{mostrarSaldo ? 'Ocultar saldo' : 'Mostrar saldo'}}
-            </button>
+    <!-- Dropdown para seleção de cartões -->
+    <div class="cards-dropdown" [class.dropdown-open]="mostrarDropdown">
+      <div class="dropdown-header" (click)="toggleDropdown()">
+        <div class="dropdown-title">{{ translate('PAY_WITH') }}</div>
+        <div class="dropdown-arrow">▼</div>
+      </div>
+      
+      <div class="dropdown-content" *ngIf="mostrarDropdown">
+        <div *ngFor="let cartao of cartoes" 
+             class="card-item"
+             [class.selected]="cartaoSelecionado?.id === cartao.id"
+             (click)="selecionarCartao(cartao)">
+          <div class="card-logo">
+            <div class="card-placeholder">{{ cartao.tipo.charAt(0) }}</div>
           </div>
-          <span class="dropdown-icon">{{ mostrarDropdown ? '▲' : '▼' }}</span>
-        </div>
-        
-        <div *ngIf="mostrarSaldo" class="saldo-info">
-          <p><span class="label">Saldo disponível:</span> R$ {{cartaoSelecionado.saldo | number:'1.2-2'}}</p>
-          <p><span class="label">Limite:</span> R$ {{cartaoSelecionado.limite | number:'1.2-2'}}</p>
-        </div>
-
-        <div class="dropdown-menu" *ngIf="mostrarDropdown">
-          <div *ngFor="let cartao of cartoes" 
-               (click)="selecionarCartao(cartao, $event)"
-               class="dropdown-item">
-            <img [src]="'assets/' + cartao.imagem" 
-                 alt="{{cartao.tipo}}"
-                 class="card-logo-small">
-            <div class="dropdown-info">
-              <span class="card-type">{{cartao.tipo}} terminando em {{cartao.final}}</span>
-              <span class="card-balance">Saldo: R$ {{cartao.saldo | number:'1.2-2'}}</span>
+          <div class="card-info">
+            <div class="card-type">{{ cartao.tipo }}</div>
+            <div class="card-number">{{ translate('ENDING_IN') }} {{ cartao.final }}</div>
+            <button class="toggle-balance" (click)="toggleBalance(cartao, $event)">
+              {{ cartao.mostrarSaldo ? translate('HIDE_BALANCE') : translate('SHOW_BALANCE') }}
+            </button>
+            <div class="card-balance" *ngIf="cartao.mostrarSaldo">
+              {{ translate('BALANCE') }}: R$ {{ cartao.saldo | number:'1.2-2' }}
             </div>
           </div>
         </div>
       </div>
+      
+      <button class="new-card-btn" *ngIf="mostrarDropdown" (click)="novoCartao()">
+        <span>+</span> {{ translate('NEW_CARD') }}
+      </button>
     </div>
 
-    <div class="amount-section">
-      <h3 class="section-title">Valor</h3>
+    <div class="amount-block">
+      <span class="amount-label">{{ translate('VALUE') }}</span>
+      
+      <!-- Input para digitar o valor manualmente -->
       <div class="amount-input-container">
         <span class="currency-symbol">R$</span>
         <input type="text" 
-               [ngModel]="valorTransferencia"
-               (ngModelChange)="formatarValor($event)"
                class="amount-input"
-               placeholder="0,00">
+               [value]="valor"
+               (input)="onInputChange($event)"
+               placeholder="0,00"
+               (blur)="formatInput()">
       </div>
       
-      <div class="quick-amounts">
-        <button *ngFor="let valor of valoresRapidos" 
-                (click)="selecionarValorRapido(valor)"
-                class="quick-amount-btn">
-          R$ {{valor}}
-        </button>
+      <input type="range" class="amount-slider" 
+             [value]="valor" 
+             (input)="onAmountChange($event)" 
+             min="0" max="1000" step="10">
+      
+      <div class="amount-options">
+        <div class="amount-option" 
+             [class.selected]="valor === 100" 
+             (click)="selecionarValor(100)">R$ 100</div>
+        <div class="amount-option" 
+             [class.selected]="valor === 200" 
+             (click)="selecionarValor(200)">R$ 200</div>
+        <div class="amount-option" 
+             [class.selected]="valor === 300" 
+             (click)="selecionarValor(300)">R$ 300</div>
       </div>
     </div>
 
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-
-    <button class="transfer-btn" 
-            (click)="transferir()"
-            [disabled]="!valorTransferencia || getValorNumerico() <= 0">
-      Transferir Dinheiro
+    <button class="transfer-btn" (click)="transferir()">
+      {{ translate('TRANSFER_MONEY') }}
     </button>
+
+    <div *ngIf="error" class="error-note">
+      {{ translate(error) }}
+    </div>
   </div>
 </div>

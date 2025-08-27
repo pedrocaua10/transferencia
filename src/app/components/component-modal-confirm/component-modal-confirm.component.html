@@ -1,21 +1,21 @@
 <div class="confirm-page">
   <div class="confirm-container">
-    <h2>Confirmar</h2>
+    <h2>{{ translate('CONFIRM') }}</h2>
     
     <div class="transfer-details">
       <div class="detail-row">
-        <span>Enviando:</span>
+        <span>{{ translate('SENDING') }}:</span>
         <strong>{{ dadosTransacao.valor | currency:'BRL' }}</strong>
       </div>
       <div class="detail-row">
-        <span>Para:</span>
+        <span>{{ translate('TO') }}:</span>
         <strong>{{ destinatario }}</strong>
       </div>
     </div>
 
     <div class="button-group">
-      <button class="cancel-btn" (click)="voltar()">Cancelar</button>
-      <button class="confirm-btn" (click)="confirmar()">Confirmar</button>
+      <button class="cancel-btn" (click)="voltar()">{{ translate('CANCEL') }}</button>
+      <button class="confirm-btn" (click)="confirmar()">{{ translate('CONFIRM_BUTTON') }}</button>
     </div>
   </div>
 </div>
