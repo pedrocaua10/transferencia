@@ -1,6 +1,6 @@
 <div class="modal-container">
   <div class="modal-card">
-    <h1 class="title">{{ translate('MY_CARDS_TITLE') }}</h1>
+    <h1 class="title">{{ translation.CARD_MANAGEMENT.MEUS_CARTOES }}</h1>
 
     <div class="card-list">
       <div *ngFor="let cartao of cartoes"
@@ -13,7 +13,7 @@
 
         <div class="card-info">
           <div class="card-type">{{ cartao.tipo }}</div>
-          <div class="card-number">{{ translate('ENDING_IN') }} {{ cartao.final }}</div>
+          <div class="card-number">{{ translation.MODAL.TERMINANDO_EM }} {{ cartao.final }}</div>
         </div>
 
         <div class="card-chevron" aria-hidden>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="new-card">
-      <button class="new-card-btn" (click)="novoCartao()">＋ {{ translate('NEW_CARD') }}</button>
+      <button class="new-card-btn" (click)="novoCartao()">＋ {{ translation.CARD_MANAGEMENT.ADICIONAR_CARTAO }}</button>
     </div>
   </div>
 </div>

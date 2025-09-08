@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
-import { LocalizationService } from '../../services/localization.service'; 
+import translation from '../../../app/pt-BR.json';
+import { Translation } from '../../interfaces/translation.interface';
 
 @Component({
   selector: 'app-card-management',
@@ -11,22 +12,16 @@ import { LocalizationService } from '../../services/localization.service';
 export class CardManagementComponent implements OnInit { 
   cartaoSelecionado: any = null;
   cartoes: any[] = [];
-  currentLanguage: string = 'pt-BR'; 
+  translation: Translation = translation;
 
   constructor(
     private router: Router,
-    private transactionService: TransactionService,
-    private localizationService: LocalizationService 
+    private transactionService: TransactionService
   ) {}
 
   ngOnInit() {
     this.transactionService.cartoes$.subscribe((cartoes: any[]) => {
       this.cartoes = cartoes;
-    });
-
-    //   observar mudanças de idioma
-    this.localizationService.currentLanguage$.subscribe(lang => {
-      this.currentLanguage = lang;
     });
   }
 
@@ -47,10 +42,5 @@ export class CardManagementComponent implements OnInit {
       this.transactionService.setCartaoSelecionado(this.cartaoSelecionado);
       this.router.navigate(['/money']);
     }
-  }
-
-  //  método para tradução
-  translate(key: string): string {
-    return this.localizationService.translateWithLanguage(key, this.currentLanguage);
   }
 }

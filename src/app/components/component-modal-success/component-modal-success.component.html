@@ -1,23 +1,23 @@
 <div class="success-page">
   <div class="success-container">
     <div class="success-icon">✓</div>
-    <h1>{{ translate('SUCCESS') }}</h1>
+    <h1>{{ translation.MODAL.SUCESSO }}</h1>
     
     <div class="transfer-details">
       <div class="detail-row">
-        <span>{{ translate('SENT') }}:</span>
+        <span>{{ translation.MODAL.ENVIADO }}:</span>
         <strong>{{ valor | currency:'BRL' }}</strong>
       </div>
       <div class="detail-row">
-        <span>{{ translate('TO') }}:</span>
+        <span>{{ translation.MODAL.PARA }}:</span>
         <strong>{{ destinatario }}</strong>
       </div>
       <div class="detail-row">
-        <span>{{ translate('DATE') }}:</span>
+        <span>{{ translation.MODAL.DATA }}:</span>
         <strong>{{ dataTransacao }}</strong>
       </div>
     </div>
 
-    <button class="done-btn" (click)="novaTransferencia()">{{ translate('COMPLETE') }}</button>
+    <button class="done-btn" (click)="novaTransferencia()">{{ translation.MODAL.CONCLUIR }}</button>
   </div>
 </div>

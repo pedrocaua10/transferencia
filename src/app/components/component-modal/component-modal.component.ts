@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
-import { LocalizationService } from '../../services/localization.service'; 
+import translation from '../../../app/pt-BR.json';
+import { Translation } from '../../interfaces/translation.interface';
 
 interface Cartao {
   id: number;
@@ -24,12 +25,11 @@ export class ComponentModalComponent implements OnInit {
     { id: 3, tipo: 'PayPal', final: '1234', saldo: 2000 }
   ];
   cartaoSelecionado: Cartao | null = null;
-  currentLanguage: string = 'pt-BR'; 
+  translation: Translation = translation;
 
   constructor(
     private router: Router, 
-    private transactionService: TransactionService,
-    private localizationService: LocalizationService 
+    private transactionService: TransactionService
   ) {}
 
   ngOnInit() {
@@ -38,11 +38,6 @@ export class ComponentModalComponent implements OnInit {
         this.valor = data.valor;
         this.destinatario = data.destinatario;
       }
-    });
-
-    //  observar mudanças de idioma
-    this.localizationService.currentLanguage$.subscribe(lang => {
-      this.currentLanguage = lang;
     });
   }
 
@@ -68,10 +63,5 @@ export class ComponentModalComponent implements OnInit {
 
   novoCartao() {
     this.router.navigate(['/novo-cartao']);
-  }
-
-  //  método para tradução
-  translate(key: string): string {
-    return this.localizationService.translateWithLanguage(key, this.currentLanguage);
   }
 }
