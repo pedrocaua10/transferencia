@@ -14,7 +14,7 @@ import { ComponentModalSuccessComponent } from './components/component-modal-suc
 import { TransactionService } from './services/transaction.service';
 import { CardManagementComponent } from './components/card-management/card-management.component';
 import { NewCardComponent } from './components/new-card/new-card.component';
-import { LocalizationService } from './services/localization.service'; 
+
 
 @NgModule({
   declarations: [
@@ -36,7 +36,6 @@ import { LocalizationService } from './services/localization.service';
   providers: [
     TransactionService,
     DatePipe,
-    LocalizationService 
   ],
   bootstrap: [AppComponent]
 })
