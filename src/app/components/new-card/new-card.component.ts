@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
+import { LocalizationService } from '../../services/localization.service';
 
 interface Cartao {
   id?: number;
@@ -29,19 +30,34 @@ export class NewCardComponent {
     imagem: 'Cartao.jpg'
   };
 
+  currentLanguage: string = 'pt-BR';
+
   constructor(
     private router: Router,
-    private transactionService: TransactionService
-  ) {}
+    private transactionService: TransactionService,
+    private localizationService: LocalizationService
+  ) {
+    this.localizationService.currentLanguage$.subscribe(lang => {
+      this.currentLanguage = lang;
+    });
+  }
 
   showCvvInfo(): void {
-    alert('O CVV é o código de segurança de 3 dígitos (4 para American Express) localizado no verso do seu cartão.');
+    if (this.currentLanguage === 'pt-BR') {
+      alert('O CVV é o código de segurança de 3 dígitos (4 para American Express) localizado no verso do seu cartão.');
+    } else {
+      alert('CVV is the 3-digit security code (4 for American Express) located on the back of your card.');
+    }
   }
 
   salvarCartao(): void {
     // Validação básica
     if (!this.novoCartao.numero || !this.novoCartao.nome || !this.novoCartao.validade || !this.novoCartao.cvv) {
-      alert('Por favor, preencha todos os campos obrigatórios.');
+      if (this.currentLanguage === 'pt-BR') {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+      } else {
+        alert('Please fill in all required fields.');
+      }
       return;
     }
 
@@ -58,7 +74,11 @@ export class NewCardComponent {
       this.router.navigate(['/money']);
     } catch (error) {
       console.error('Erro ao salvar cartão:', error);
-      alert('Erro ao salvar cartão. Tente novamente.');
+      if (this.currentLanguage === 'pt-BR') {
+        alert('Erro ao salvar cartão. Tente novamente.');
+      } else {
+        alert('Error saving card. Please try again.');
+      }
     }
   }
 
@@ -80,5 +100,10 @@ export class NewCardComponent {
       value = value.substring(0, 2) + '/' + value.substring(2, 4);
     }
     this.novoCartao.validade = value;
+  }
+
+  // Método para tradução
+  translate(key: string): string {
+    return this.localizationService.translateWithLanguage(key, this.currentLanguage);
   }
 }

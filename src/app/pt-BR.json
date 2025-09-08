@@ -1,0 +1,54 @@
+{
+  "MSG_SISTEMA": {
+    "MSG_ERRO_MAIOR_999": "Valor não pode ser maior que 999",
+    "MSG_SUCESSO": "Operação realizada com sucesso",
+    "MSG_ERRO_GERAL": "Ocorreu um erro inesperado"
+  },
+  "COMPONENT_MONEY": {
+    "PAGAR_COM": "PAGAR COM",
+    "MOSTRAR_SALDO": "Mostrar saldo",
+    "OCULTAR_SALDO": "Ocultar saldo",
+    "SALDO": "Saldo",
+    "NOVO_CARTAO": "Novo Cartão",
+    "VALOR": "VALOR",
+    "TRANSFERIR_DINHEIRO": "Transferir Dinheiro",
+    "SELECIONAR_CARTAO": "Selecione um cartão para continuar",
+    "SELECIONAR_VALOR": "Selecione um valor para transferência",
+    "SALDO_INSUFICIENTE": "Saldo insuficiente para esta transferência",
+    "TERMINANDO_EM": "Terminando em"
+  },
+  "CARD_MANAGEMENT": {
+    "MEUS_CARTOES": "Meus Cartões",
+    "SELECIONAR_CARTAO": "Selecione um cartão",
+    "SALDO_CARTAO": "Saldo",
+    "ADICIONAR_CARTAO": "Adicionar novo cartão",
+    "VOLTAR": "Voltar",
+    "SELECIONAR": "Selecionar"
+  },
+  "MODAL": {
+    "MEUS_CARTOES": "Meus Cartões",
+    "CONFIRMAR": "Confirmar",
+    "ENVIANDO": "Enviando",
+    "PARA": "Para",
+    "CANCELAR": "Cancelar",
+    "SUCESSO": "Sucesso",
+    "ENVIADO": "Enviado",
+    "DATA": "Data",
+    "CONCLUIR": "Concluir",
+    "NOVA_TRANSFERENCIA": "Nova Transferência",
+    "TERMINANDO_EM": "Terminando em"
+  },
+  "NEW_CARD": {
+    "CADASTRAR_CARTAO": "Cadastrar Novo Cartão",
+    "BANDEIRA_CARTAO": "Bandeira do Cartão",
+    "NUMERO_CARTAO": "Número do Cartão",
+    "NUMERO_CARTAO_PLACEHOLDER": "0000 0000 0000 0000",
+    "NOME_CARTAO": "Nome no Cartão",
+    "NOME_CARTAO_PLACEHOLDER": "Como aparece no cartão",
+    "VALIDADE": "Validade",
+    "VALIDADE_PLACEHOLDER": "MM/AA",
+    "CVV": "CVV",
+    "CVV_PLACEHOLDER": "000",
+    "SALVAR_CARTAO": "Salvar Cartão"
+  }
+}

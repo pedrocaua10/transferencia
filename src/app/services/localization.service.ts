@@ -46,7 +46,40 @@ export class LocalizationService {
       'SENT': 'Enviado',
       'DATE': 'Data',
       'COMPLETE': 'Concluir',
-      'NEW_TRANSFER': 'Nova Transferência'
+      'NEW_TRANSFER': 'Nova Transferência',
+      
+      // New Card Component
+      'REGISTER_NEW_CARD': 'Cadastrar Novo Cartão',
+      'CARD_BRAND': 'Bandeira do Cartão',
+      'CARD_NUMBER': 'Número do Cartão',
+      'CARD_NUMBER_PLACEHOLDER': '0000 0000 0000 0000',
+      'CARD_HOLDER_NAME': 'Nome no Cartão',
+      'CARD_HOLDER_PLACEHOLDER': 'Como aparece no cartão',
+      'EXPIRATION_DATE': 'Validade',
+      'EXPIRATION_PLACEHOLDER': 'MM/AA',
+      'CVV': 'CVV',
+      'CVV_PLACEHOLDER': '000',
+      'SAVE_CARD': 'Salvar Cartão',
+      
+      // App Component (seletor global de idioma)
+      'PORTUGUESE': 'Português',
+      'ENGLISH': 'Inglês',
+      
+      // Mensagens de validação
+      'REQUIRED_FIELD': 'Este campo é obrigatório',
+      'INVALID_CARD_NUMBER': 'Número de cartão inválido',
+      'INVALID_EXPIRATION': 'Data de validade inválida',
+      'INVALID_CVV': 'CVV inválido',
+      
+      // Mensagens de sucesso/erro
+      'CARD_ADDED_SUCCESS': 'Cartão adicionado com sucesso',
+      'TRANSFER_SUCCESS': 'Transferência realizada com sucesso',
+      'ERROR_OCURRED': 'Ocorreu um erro',
+      
+      // Termos gerais
+      'LOADING': 'Carregando',
+      'SAVING': 'Salvando',
+      'PROCESSING': 'Processando'
     },
     'en-US': {
       // Component Money
@@ -85,7 +118,40 @@ export class LocalizationService {
       'SENT': 'Sent',
       'DATE': 'Date',
       'COMPLETE': 'Complete',
-      'NEW_TRANSFER': 'New Transfer'
+      'NEW_TRANSFER': 'New Transfer',
+      
+      // New Card Component
+      'REGISTER_NEW_CARD': 'Register New Card',
+      'CARD_BRAND': 'Card Brand',
+      'CARD_NUMBER': 'Card Number',
+      'CARD_NUMBER_PLACEHOLDER': '0000 0000 0000 0000',
+      'CARD_HOLDER_NAME': 'Card Holder Name',
+      'CARD_HOLDER_PLACEHOLDER': 'As it appears on the card',
+      'EXPIRATION_DATE': 'Expiration Date',
+      'EXPIRATION_PLACEHOLDER': 'MM/YY',
+      'CVV': 'CVV',
+      'CVV_PLACEHOLDER': '000',
+      'SAVE_CARD': 'Save Card',
+      
+      // App Component (seletor global de idioma)
+      'PORTUGUESE': 'Portuguese',
+      'ENGLISH': 'English',
+      
+      // Mensagens de validação
+      'REQUIRED_FIELD': 'This field is required',
+      'INVALID_CARD_NUMBER': 'Invalid card number',
+      'INVALID_EXPIRATION': 'Invalid expiration date',
+      'INVALID_CVV': 'Invalid CVV',
+      
+      // Mensagens de sucesso/erro
+      'CARD_ADDED_SUCCESS': 'Card added successfully',
+      'TRANSFER_SUCCESS': 'Transfer completed successfully',
+      'ERROR_OCURRED': 'An error occurred',
+      
+      // Termos gerais
+      'LOADING': 'Loading',
+      'SAVING': 'Saving',
+      'PROCESSING': 'Processing'
     }
   };
 
@@ -115,5 +181,28 @@ export class LocalizationService {
 
   translateWithLanguage(key: string, language: string): string {
     return this.translations[language]?.[key] || key;
+  }
+
+  // Método para obter todas as traduções de uma chave específica em todos os idiomas
+  getAllTranslationsForKey(key: string): { [key: string]: string } {
+    const result: { [key: string]: string } = {};
+    for (const lang of Object.keys(this.translations)) {
+      result[lang] = this.translations[lang][key] || key;
+    }
+    return result;
+  }
+
+  // Método para obter a lista de idiomas disponíveis
+  getAvailableLanguages(): string[] {
+    return Object.keys(this.translations);
+  }
+
+  // Método para obter o nome do idioma no próprio idioma
+  getLanguageName(languageCode: string): string {
+    switch (languageCode) {
+      case 'pt-BR': return this.translations[languageCode]?.['PORTUGUESE'] || 'Português';
+      case 'en-US': return this.translations[languageCode]?.['ENGLISH'] || 'English';
+      default: return languageCode;
+    }
   }
 }

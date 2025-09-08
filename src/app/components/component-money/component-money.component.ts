@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
-import { LocalizationService } from '../../services/localization.service';
+import translation from '../../../app/pt-BR.json';
+import { Translation } from '../../interfaces/translation.interface';
 
 interface Cartao {
   id: number;
@@ -27,12 +28,13 @@ export class ComponentMoneyComponent implements OnInit {
   cartaoSelecionado: Cartao | null = null;
   mostrarDropdown: boolean = false;
   error: string = '';
-  currentLanguage: string = 'pt-BR';
+  
+  // Importação das traduções com tipo definido
+  translation: Translation = translation;
 
   constructor(
     private router: Router, 
-    private transactionService: TransactionService,
-    private localizationService: LocalizationService
+    private transactionService: TransactionService
   ) {}
 
   ngOnInit() {
@@ -42,10 +44,6 @@ export class ComponentMoneyComponent implements OnInit {
         cartao.mostrarSaldo = false;
       });
     }
-
-    this.localizationService.currentLanguage$.subscribe(lang => {
-      this.currentLanguage = lang;
-    });
   }
 
   toggleDropdown() {
@@ -93,27 +91,19 @@ export class ComponentMoneyComponent implements OnInit {
     this.router.navigate(['/novo-cartao']);
   }
 
-  changeLanguage(lang: string) {
-    this.localizationService.setLanguage(lang);
-  }
-
-  translate(key: string): string {
-    return this.localizationService.translateWithLanguage(key, this.currentLanguage);
-  }
-
   transferir() {
     if (!this.cartaoSelecionado) {
-      this.error = 'SELECT_CARD';
+      this.error = 'SELECT_CARTAO';
       return;
     }
 
     if (this.valor <= 0) {
-      this.error = 'SELECT_VALUE';
+      this.error = 'SELECT_VALOR';
       return;
     }
 
     if (this.valor > (this.cartaoSelecionado?.saldo || 0)) {
-      this.error = 'INSUFFICIENT_BALANCE';
+      this.error = 'SALDO_INSUFICIENTE';
       return;
     }
 
