@@ -48,13 +48,6 @@ export class NewCardComponent {
       return;
     }
 
-    if (this.novoCartao.numero) {
-      this.novoCartao.final = this.novoCartao.numero.slice(-4);
-    }
-    
-    this.novoCartao.id = Date.now();
-    this.novoCartao.saldo = 2000;
-
     try {
       const cartaoAdicionado = this.transactionService.adicionarCartao(this.novoCartao);
       this.transactionService.setCartaoSelecionado(cartaoAdicionado);
@@ -81,5 +74,17 @@ export class NewCardComponent {
       value = value.substring(0, 2) + '/' + value.substring(2, 4);
     }
     this.novoCartao.validade = value;
+  }
+
+  translate(key: string): string {
+    const keys = key.split('.');
+    let value: any = this.translation;
+    
+    for (const k of keys) {
+      if (!value) return key;
+      value = value[k];
+    }
+    
+    return value || key;
   }
 }

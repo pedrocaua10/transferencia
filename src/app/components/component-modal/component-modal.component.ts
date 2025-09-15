@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
 import translation from '../../../app/pt-BR.json';
 import { Translation } from '../../interfaces/translation.interface';
+import { Subscription } from 'rxjs';
 
 interface Cartao {
   id: number;
@@ -16,16 +17,17 @@ interface Cartao {
   templateUrl: './component-modal.component.html',
   styleUrls: ['./component-modal.component.css']
 })
-export class ComponentModalComponent implements OnInit {
+export class ComponentModalComponent implements OnInit, OnDestroy {
   valor: number = 0;
   destinatario: string = '';
-  cartoes: Cartao[] = [
-    { id: 1, tipo: 'Mastercard', final: '6758', saldo: 2000 },
-    { id: 2, tipo: 'Visa', final: '4586', saldo: 2000 },
-    { id: 3, tipo: 'PayPal', final: '1234', saldo: 2000 }
-  ];
+  cartoes: Cartao[] = [];
   cartaoSelecionado: Cartao | null = null;
+  
   translation: Translation = translation;
+  
+  private cartoesSubscription: Subscription | null = null;
+  private cartaoSelecionadoSubscription: Subscription | null = null;
+  private dataSubscription: Subscription | null = null;
 
   constructor(
     private router: Router, 
@@ -33,7 +35,19 @@ export class ComponentModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.transactionService.currentData.subscribe(data => {
+    this.cartoesSubscription = this.transactionService.cartoes$.subscribe(
+      (cartoes: Cartao[]) => {
+        this.cartoes = cartoes;
+      }
+    );
+
+    this.cartaoSelecionadoSubscription = this.transactionService.cartaoSelecionado$.subscribe(
+      (cartao: Cartao | null) => {
+        this.cartaoSelecionado = cartao;
+      }
+    );
+
+    this.dataSubscription = this.transactionService.currentData$.subscribe(data => {
       if (data) {
         this.valor = data.valor;
         this.destinatario = data.destinatario;
@@ -41,8 +55,15 @@ export class ComponentModalComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (this.cartoesSubscription) this.cartoesSubscription.unsubscribe();
+    if (this.cartaoSelecionadoSubscription) this.cartaoSelecionadoSubscription.unsubscribe();
+    if (this.dataSubscription) this.dataSubscription.unsubscribe();
+  }
+
   selecionarCartao(cartao: Cartao) {
     this.cartaoSelecionado = cartao;
+    this.transactionService.setCartaoSelecionado(cartao);
     this.confirmar();
   }
 
@@ -63,5 +84,17 @@ export class ComponentModalComponent implements OnInit {
 
   novoCartao() {
     this.router.navigate(['/novo-cartao']);
+  }
+
+  translate(key: string): string {
+    const keys = key.split('.');
+    let value: any = this.translation;
+    
+    for (const k of keys) {
+      if (!value) return key;
+      value = value[k];
+    }
+    
+    return value || key;
   }
 }

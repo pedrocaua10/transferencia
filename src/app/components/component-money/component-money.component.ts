@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
 import translation from '../../../app/pt-BR.json';
 import { Translation } from '../../interfaces/translation.interface';
+import { Subscription } from 'rxjs';
 
 interface Cartao {
   id: number;
@@ -10,6 +11,7 @@ interface Cartao {
   final: string;
   saldo: number;
   mostrarSaldo?: boolean;
+  imagem?: string;
 }
 
 @Component({
@@ -17,20 +19,18 @@ interface Cartao {
   templateUrl: './component-money.component.html',
   styleUrls: ['./component-money.component.css']
 })
-export class ComponentMoneyComponent implements OnInit {
+export class ComponentMoneyComponent implements OnInit, OnDestroy {
   valor: number = 0;
   destinatario: string = 'Mickey Obama Jr.';
-  cartoes: Cartao[] = [
-    { id: 1, tipo: 'Visa', final: '4536', saldo: 2000 },
-    { id: 2, tipo: 'Mastercard', final: '6758', saldo: 2000 },
-    { id: 3, tipo: 'PayPal', final: '1234', saldo: 2000 }
-  ];
+  cartoes: Cartao[] = [];
   cartaoSelecionado: Cartao | null = null;
   mostrarDropdown: boolean = false;
   error: string = '';
   
-  // Importação das traduções com tipo definido
   translation: Translation = translation;
+  
+  private cartoesSubscription: Subscription | null = null;
+  private cartaoSelecionadoSubscription: Subscription | null = null;
 
   constructor(
     private router: Router, 
@@ -38,12 +38,33 @@ export class ComponentMoneyComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.cartoes.length > 0) {
-      this.cartaoSelecionado = this.cartoes[0];
-      this.cartoes.forEach(cartao => {
-        cartao.mostrarSaldo = false;
-      });
-    }
+    this.cartoesSubscription = this.transactionService.cartoes$.subscribe(
+      (cartoes: Cartao[]) => {
+        this.cartoes = cartoes;
+        
+        if (cartoes.length > 0 && !this.cartaoSelecionado) {
+          this.cartaoSelecionado = cartoes[0];
+          this.transactionService.setCartaoSelecionado(cartoes[0]);
+        }
+        
+        this.cartoes.forEach(cartao => {
+          cartao.mostrarSaldo = false;
+        });
+      }
+    );
+
+    this.cartaoSelecionadoSubscription = this.transactionService.cartaoSelecionado$.subscribe(
+      (cartao: Cartao | null) => {
+        if (cartao) {
+          this.cartaoSelecionado = cartao;
+        }
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.cartoesSubscription) this.cartoesSubscription.unsubscribe();
+    if (this.cartaoSelecionadoSubscription) this.cartaoSelecionadoSubscription.unsubscribe();
   }
 
   toggleDropdown() {
@@ -52,6 +73,7 @@ export class ComponentMoneyComponent implements OnInit {
 
   selecionarCartao(cartao: Cartao) {
     this.cartaoSelecionado = cartao;
+    this.transactionService.setCartaoSelecionado(cartao);
     this.mostrarDropdown = false;
   }
 
@@ -114,5 +136,25 @@ export class ComponentMoneyComponent implements OnInit {
     });
 
     this.router.navigate(['/confirmar']);
+  }
+
+  getCartaoSelecionadoTexto(): string {
+    if (!this.cartaoSelecionado) {
+      return this.translate('COMPONENT_MONEY.PAGAR_COM');
+    }
+    
+    return `${this.cartaoSelecionado.tipo} ${this.translate('COMPONENT_MONEY.TERMINANDO_EM')} ${this.cartaoSelecionado.final}`;
+  }
+
+  translate(key: string): string {
+    const keys = key.split('.');
+    let value: any = this.translation;
+    
+    for (const k of keys) {
+      if (!value) return key;
+      value = value[k];
+    }
+    
+    return value || key;
   }
 }

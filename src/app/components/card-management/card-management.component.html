@@ -1,13 +1,12 @@
 <div class="card-management-page">
   <div class="card-management-container">
     <div class="header">
-      <h2>{{ translation.CARD_MANAGEMENT.MEUS_CARTOES }}</h2>
+      <h2>{{ translate('CARD_MANAGEMENT.MEUS_CARTOES') }}</h2>
     </div>
     
-    <p class="section-title">{{ translation.CARD_MANAGEMENT.SELECIONAR_CARTAO }}</p>
+    <p class="section-title">{{ translate('CARD_MANAGEMENT.SELECIONAR_CARTAO') }}</p>
     
     <div class="card-list">
-      <!-- Lista de cartões -->
       <div *ngFor="let cartao of cartoes" 
            class="card-item"
            [class.selected]="cartaoSelecionado?.id === cartao.id"
@@ -16,24 +15,27 @@
              alt="{{cartao.tipo}}"
              class="card-logo">
         <div class="card-info">
-          <span class="card-type">{{cartao.tipo}} {{ translation.MODAL.TERMINANDO_EM }} {{cartao.final}}</span>
-          <span class="card-balance">{{ translation.CARD_MANAGEMENT.SALDO_CARTAO }}: R$ {{cartao.saldo | number:'1.2-2'}}</span>
+          <span class="card-type">{{cartao.tipo}} {{ translate('MODAL.TERMINANDO_EM') }} {{cartao.final}}</span>
+          <span class="card-balance">{{ translate('CARD_MANAGEMENT.SALDO_CARTAO') }}: R$ {{cartao.saldo | number:'1.2-2'}}</span>
+        </div>
+        
+        <div class="selection-indicator" *ngIf="cartaoSelecionado?.id === cartao.id">
+          ✓
         </div>
       </div>
       
-      <!-- Novo cartão -->
       <div class="new-card-item" (click)="adicionarNovoCartao()">
         <div class="add-icon">+</div>
-        <span>{{ translation.CARD_MANAGEMENT.ADICIONAR_CARTAO }}</span>
+        <span>{{ translate('CARD_MANAGEMENT.ADICIONAR_CARTAO') }}</span>
       </div>
     </div>
     
     <div class="button-group">
-      <button class="btn btn-secondary" (click)="voltar()">{{ translation.MODAL.CANCELAR }}</button>
+      <button class="btn btn-secondary" (click)="voltar()">{{ translate('MODAL.CANCELAR') }}</button>
       <button class="btn btn-primary" 
               (click)="confirmar()" 
               [disabled]="!cartaoSelecionado">
-        {{ translation.CARD_MANAGEMENT.SELECIONAR }}
+        {{ translate('CARD_MANAGEMENT.SELECIONAR') }}
       </button>
     </div>
   </div>

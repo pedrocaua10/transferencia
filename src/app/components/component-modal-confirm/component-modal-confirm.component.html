@@ -1,21 +1,21 @@
 <div class="confirm-page">
   <div class="confirm-container">
-    <h2>{{ translation.MODAL.CONFIRMAR }}</h2>
+    <h2>{{ translate('MODAL.CONFIRMAR') }}</h2>
     
     <div class="transfer-details">
       <div class="detail-row">
-        <span>{{ translation.MODAL.ENVIANDO }}:</span>
+        <span>{{ translate('MODAL.ENVIANDO') }}:</span>
         <strong>{{ dadosTransacao.valor | currency:'BRL' }}</strong>
       </div>
       <div class="detail-row">
-        <span>{{ translation.MODAL.PARA }}:</span>
+        <span>{{ translate('MODAL.PARA') }}:</span>
         <strong>{{ destinatario }}</strong>
       </div>
     </div>
 
     <div class="button-group">
-      <button class="cancel-btn" (click)="voltar()">{{ translation.MODAL.CANCELAR }}</button>
-      <button class="confirm-btn" (click)="confirmar()">{{ translation.MODAL.CONFIRMAR }}</button>
+      <button class="cancel-btn" (click)="voltar()">{{ translate('MODAL.CANCELAR') }}</button>
+      <button class="confirm-btn" (click)="confirmar()">{{ translate('MODAL.CONFIRMAR') }}</button>
     </div>
   </div>
 </div>

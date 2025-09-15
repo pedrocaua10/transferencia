@@ -4,10 +4,13 @@
       <div class="avatar">M</div>
       <span class="recipient">Mickey Obama Jr.</span>
     </div>
+
     <div class="cards-dropdown" [class.dropdown-open]="mostrarDropdown">
       <div class="dropdown-header" (click)="toggleDropdown()">
-        <div class="dropdown-title">{{ translation.COMPONENT_MONEY.PAGAR_COM }}</div>
-        <div class="dropdown-arrow">▼</div>
+        <div class="dropdown-title">
+          {{ cartaoSelecionado ? getCartaoSelecionadoTexto() : translate('COMPONENT_MONEY.PAGAR_COM') }}
+        </div>
+        <div class="dropdown-arrow" [class.rotated]="mostrarDropdown">▼</div>
       </div>
       
       <div class="dropdown-content" *ngIf="mostrarDropdown">
@@ -20,26 +23,29 @@
           </div>
           <div class="card-info">
             <div class="card-type">{{ cartao.tipo }}</div>
-            <div class="card-number">{{ translation.COMPONENT_MONEY.TERMINANDO_EM }} {{ cartao.final }}</div>
+            <div class="card-number">{{ translate('COMPONENT_MONEY.TERMINANDO_EM') }} {{ cartao.final }}</div>
             <button class="toggle-balance" (click)="toggleBalance(cartao, $event)">
-              {{ cartao.mostrarSaldo ? translation.COMPONENT_MONEY.OCULTAR_SALDO : translation.COMPONENT_MONEY.MOSTRAR_SALDO }}
+              {{ cartao.mostrarSaldo ? translate('COMPONENT_MONEY.OCULTAR_SALDO') : translate('COMPONENT_MONEY.MOSTRAR_SALDO') }}
             </button>
             <div class="card-balance" *ngIf="cartao.mostrarSaldo">
-              {{ translation.COMPONENT_MONEY.SALDO }}: R$ {{ cartao.saldo | number:'1.2-2' }}
+              {{ translate('COMPONENT_MONEY.SALDO') }}: R$ {{ cartao.saldo | number:'1.2-2' }}
             </div>
+          </div>
+          
+          <div class="selection-indicator" *ngIf="cartaoSelecionado?.id === cartao.id">
+            ✓
           </div>
         </div>
       </div>
       
       <button class="new-card-btn" *ngIf="mostrarDropdown" (click)="novoCartao()">
-        <span>+</span> {{ translation.COMPONENT_MONEY.NOVO_CARTAO }}
+        <span>+</span> {{ translate('COMPONENT_MONEY.NOVO_CARTAO') }}
       </button>
     </div>
 
     <div class="amount-block">
-      <span class="amount-label">{{ translation.COMPONENT_MONEY.VALOR }}</span>
+      <span class="amount-label">{{ translate('COMPONENT_MONEY.VALOR') }}</span>
       
-      <!-- Input para digitar o valor manualmente -->
       <div class="amount-input-container">
         <span class="currency-symbol">R$</span>
         <input type="text" 
@@ -69,18 +75,18 @@
     </div>
 
     <button class="transfer-btn" (click)="transferir()">
-      {{ translation.COMPONENT_MONEY.TRANSFERIR_DINHEIRO }}
+      {{ translate('COMPONENT_MONEY.TRANSFERIR_DINHEIRO') }}
     </button>
 
     <div *ngIf="error" class="error-note">
       <span *ngIf="error === 'SELECT_CARTAO'">
-        {{ translation.COMPONENT_MONEY.SELECIONAR_CARTAO }}
+        {{ translate('COMPONENT_MONEY.SELECIONAR_CARTAO') }}
       </span>
       <span *ngIf="error === 'SELECT_VALOR'">
-        {{ translation.COMPONENT_MONEY.SELECIONAR_VALOR }}
+        {{ translate('COMPONENT_MONEY.SELECIONAR_VALOR') }}
       </span>
       <span *ngIf="error === 'SALDO_INSUFICIENTE'">
-        {{ translation.COMPONENT_MONEY.SALDO_INSUFICIENTE }}
+        {{ translate('COMPONENT_MONEY.SALDO_INSUFICIENTE') }}
       </span>
     </div>
   </div>

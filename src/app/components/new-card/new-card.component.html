@@ -1,12 +1,12 @@
 <div class="new-card-page">
   <div class="new-card-container">
     <div class="header">
-      <h2>{{ translation.NEW_CARD.CADASTRAR_CARTAO }}</h2>
+      <h2>{{ translate('NEW_CARD.CADASTRAR_CARTAO') }}</h2>
     </div>
 
     <form (ngSubmit)="salvarCartao()">
       <div class="form-group">
-        <label for="tipo">{{ translation.NEW_CARD.BANDEIRA_CARTAO }}</label>
+        <label for="tipo">{{ translate('NEW_CARD.BANDEIRA_CARTAO') }}</label>
         <select id="tipo" 
                 [(ngModel)]="novoCartao.tipo" 
                 name="tipo"
@@ -19,50 +19,50 @@
       </div>
 
       <div class="form-group">
-        <label for="numero">{{ translation.NEW_CARD.NUMERO_CARTAO }}</label>
+        <label for="numero">{{ translate('NEW_CARD.NUMERO_CARTAO') }}</label>
         <input type="text" 
                id="numero" 
                [(ngModel)]="novoCartao.numero"
                name="numero"
                class="form-input"
-               placeholder="{{ translation.NEW_CARD.NUMERO_CARTAO_PLACEHOLDER }}"
+               placeholder="{{ translate('NEW_CARD.NUMERO_CARTAO_PLACEHOLDER') }}"
                required
                (input)="formatarNumeroCartao($event)">
       </div>
 
       <div class="form-group">
-        <label for="nome">{{ translation.NEW_CARD.NOME_CARTAO }}</label>
+        <label for="nome">{{ translate('NEW_CARD.NOME_CARTAO') }}</label>
         <input type="text" 
                id="nome" 
                [(ngModel)]="novoCartao.nome"
                name="nome"
                class="form-input"
-               placeholder="{{ translation.NEW_CARD.NOME_CARTAO_PLACEHOLDER }}"
+               placeholder="{{ translate('NEW_CARD.NOME_CARTAO_PLACEHOLDER') }}"
                required>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="validade">{{ translation.NEW_CARD.VALIDADE }}</label>
+          <label for="validade">{{ translate('NEW_CARD.VALIDADE') }}</label>
           <input type="text" 
                  id="validade" 
                  [(ngModel)]="novoCartao.validade"
                  name="validade"
                  class="form-input"
-                 placeholder="{{ translation.NEW_CARD.VALIDADE_PLACEHOLDER }}"
+                 placeholder="{{ translate('NEW_CARD.VALIDADE_PLACEHOLDER') }}"
                  required
                  (input)="formatarValidade($event)">
         </div>
 
         <div class="form-group">
-          <label for="cvv">{{ translation.NEW_CARD.CVV }}</label>
+          <label for="cvv">{{ translate('NEW_CARD.CVV') }}</label>
           <div class="input-with-icon">
             <input type="text" 
                    id="cvv" 
                    [(ngModel)]="novoCartao.cvv"
                    name="cvv"
                    class="form-input"
-                   placeholder="{{ translation.NEW_CARD.CVV_PLACEHOLDER }}"
+                   placeholder="{{ translate('NEW_CARD.CVV_PLACEHOLDER') }}"
                    required>
             <i class="info-icon" (click)="showCvvInfo()">?</i>
           </div>
@@ -73,11 +73,11 @@
         <button type="button" 
                 class="btn btn-secondary"
                 (click)="cancelar()">
-          {{ translation.MODAL.CANCELAR }}
+          {{ translate('MODAL.CANCELAR') }}
         </button>
         <button type="submit" 
                 class="btn btn-primary">
-          {{ translation.NEW_CARD.SALVAR_CARTAO }}
+          {{ translate('NEW_CARD.SALVAR_CARTAO') }}
         </button>
       </div>
     </form>

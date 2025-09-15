@@ -5,52 +5,62 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class TransactionService {
-  private transactionSource = new BehaviorSubject<any>(null);
-  currentData = this.transactionSource.asObservable();
+  private cartoesSubject = new BehaviorSubject<any[]>([
+    { id: 1, tipo: 'Visa', final: '4536', saldo: 2000, imagem: 'Cartao.jpg' },
+    { id: 2, tipo: 'Mastercard', final: '6758', saldo: 2000, imagem: 'Cartao.jpg' },
+    { id: 3, tipo: 'PayPal', final: '1234', saldo: 2000, imagem: 'Cartao.jpg' }
+  ]);
+  public cartoes$ = this.cartoesSubject.asObservable();
 
-  private cartoesSubject = new BehaviorSubject<any[]>([]);
-  cartoes$ = this.cartoesSubject.asObservable();
+  private cartaoSelecionadoSubject = new BehaviorSubject<any>(null);
+  public cartaoSelecionado$ = this.cartaoSelecionadoSubject.asObservable();
 
-  private cartaoSelecionado: any = null;
+  private currentDataSubject = new BehaviorSubject<any>(null);
+  public currentData$ = this.currentDataSubject.asObservable();
 
- adicionarCartao(cartao: any): any {
-  // Garante que o cartão tenha id e saldo
-  if (!cartao.id) cartao.id = Date.now();
-  if (typeof cartao.saldo !== 'number') cartao.saldo = 2000;
+  constructor() {}
 
-  const current = this.cartoesSubject.value;
-  this.cartoesSubject.next([...current, cartao]);
-  return cartao;
-}
+  get cartoes(): any[] {
+    return this.cartoesSubject.value;
+  }
 
+  get currentValue(): any {
+    return this.currentDataSubject.value;
+  }
+
+  get cartaoSelecionado(): any {
+    return this.cartaoSelecionadoSubject.value;
+  }
+
+  adicionarCartao(novoCartao: any): any {
+    const cartoesAtuais = this.cartoes;
+    const cartaoComId = {
+      ...novoCartao,
+      id: Date.now(),
+      final: novoCartao.numero.slice(-4),
+      saldo: 2000
+    };
+    
+    const novosCartoes = [...cartoesAtuais, cartaoComId];
+    this.cartoesSubject.next(novosCartoes);
+    
+    return cartaoComId;
+  }
 
   setCartaoSelecionado(cartao: any): void {
-    this.cartaoSelecionado = cartao;
+    this.cartaoSelecionadoSubject.next(cartao);
   }
 
-  getCartaoSelecionado(): any {
-    return this.cartaoSelecionado;
+  updateData(data: any): void {
+    this.currentDataSubject.next(data);
   }
 
-  get currentValue() {
-    return this.transactionSource.value;
+  clearData(): void {
+    this.currentDataSubject.next(null);
   }
 
-  updateData(data: any) {
-    this.transactionSource.next(data);
-  }
-
-  clearData() {
-    this.transactionSource.next(null);
-  }
-
-  validateBalance(valor: number, cartaoId: number): boolean {
-    const cartoes = [
-      { id: 1, saldo: 2000 },
-      { id: 2, saldo: 2000 }
-    ];
-    
-    const cartao = cartoes.find(c => c.id === cartaoId);
-    return cartao ? cartao.saldo >= valor : false;
+  removerCartao(id: number): void {
+    const novosCartoes = this.cartoes.filter(cartao => cartao.id !== id);
+    this.cartoesSubject.next(novosCartoes);
   }
 }

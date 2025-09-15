@@ -14,6 +14,7 @@ export class ComponentModalSuccessComponent implements OnInit {
   valor: number = 0;
   destinatario: string = '';
   dataTransacao: string;
+  
   translation: Translation = translation;
 
   constructor(
@@ -35,5 +36,17 @@ export class ComponentModalSuccessComponent implements OnInit {
   novaTransferencia() {
     this.transactionService.clearData();
     this.router.navigate(['/money']);
+  }
+
+  translate(key: string): string {
+    const keys = key.split('.');
+    let value: any = this.translation;
+    
+    for (const k of keys) {
+      if (!value) return key;
+      value = value[k];
+    }
+    
+    return value || key;
   }
 }

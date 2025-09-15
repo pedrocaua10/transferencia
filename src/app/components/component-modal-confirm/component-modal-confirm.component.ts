@@ -12,6 +12,7 @@ import { Translation } from '../../interfaces/translation.interface';
 export class ComponentModalConfirmComponent implements OnInit {
   dadosTransacao: any = {};
   destinatario: string = '';
+  
   translation: Translation = translation;
 
   constructor(
@@ -30,5 +31,17 @@ export class ComponentModalConfirmComponent implements OnInit {
 
   confirmar() {
     this.router.navigate(['/sucesso']);
+  }
+
+  translate(key: string): string {
+    const keys = key.split('.');
+    let value: any = this.translation;
+    
+    for (const k of keys) {
+      if (!value) return key;
+      value = value[k];
+    }
+    
+    return value || key;
   }
 }
